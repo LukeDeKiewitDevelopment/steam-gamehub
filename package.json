@@ -1,7 +1,11 @@
 {
   "name": "steam-gamehub",
-  "version": "0.1.0",
-  "private": true,
+  "author": {
+    "name": "Luke De Kiewit",
+    "email": "luke.dekiewit@yahoo.com"
+  },
+  "version": "1.0",
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",

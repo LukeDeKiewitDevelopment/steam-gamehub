@@ -59,6 +59,7 @@ export default function Home() {
             Documentation
           </a>
         </div>
+        <span className="text-red-600">We live on Vercel?</span>
       </main>
     </div>
   );
