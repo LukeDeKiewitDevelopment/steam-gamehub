@@ -37,6 +37,7 @@ export default async function Home({
   let allGames: any = null;
   let recentlyPlayedGames: any = null;
   let friendsList: any = null;
+  let gamesOwned: number | null = null;
 
   if (query) {
     try {
@@ -48,11 +49,14 @@ export default async function Home({
         allGames = await getOwnedGames(steamId);
         recentlyPlayedGames = await getRecentlyPlayedGames(steamId);
         friendsList = await getFriendList(steamId);
+        gamesOwned = allGames.response.game_count;
       }
     } catch (error) {
       error = String(error);
     }
   }
+
+  const isAdmin = query === "nuttshellman" || query === "76561198391254868";
 
   return (
     <main className="flex w-full flex-col gap-8">
@@ -117,12 +121,13 @@ export default async function Home({
                   <span>{steamLevel.response.player_level}</span>
                 </Badge>
               </div>
-
-              {!error && badges && <pre>{JSON.stringify(badges, null, 2)}</pre>}
-              <h4>Owned Games</h4>
-              {!error && allGames && (
+              Games Owned: {gamesOwned}
+              {/* <h4>Owned Games</h4>
+              {!error && allGames && !isAdmin && (
                 <pre>{JSON.stringify(allGames, null, 2)}</pre>
               )}
+
+              {!error && badges && <pre>{JSON.stringify(badges, null, 2)}</pre>}
               <h4>Recently Played Games</h4>
               {!error && recentlyPlayedGames && (
                 <pre>{JSON.stringify(recentlyPlayedGames, null, 2)}</pre>
@@ -130,7 +135,7 @@ export default async function Home({
               <h4>Friends</h4>
               {!error && friendsList && (
                 <pre>{JSON.stringify(friendsList, null, 2)}</pre>
-              )}
+              )} */}
             </div>
           </div>
         </CardContent>
