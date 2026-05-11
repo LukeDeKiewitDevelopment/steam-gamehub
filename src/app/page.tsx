@@ -42,6 +42,7 @@ export default async function Home({
   if (query) {
     try {
       const steamId = await resolveToSteamId(query);
+
       data = await getPlayer(steamId);
       if (data) {
         steamLevel = await getSteamLevel(steamId);
@@ -84,45 +85,48 @@ export default async function Home({
 
       {/* {!error && data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Info</CardTitle>
+      {data && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Info</CardTitle>
 
-          <CardAction>
-            <div className="flex items-center gap-2">
-              <a
-                href={data.profileurl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button>View Profile</Button>
-              </a>
-            </div>
-          </CardAction>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-4">
-            <Avatar className="h-46 w-46">
-              <AvatarImage className="rounded-none" src={data.avatarfull} />
-            </Avatar>
-            <div className="flex flex-col gap-2">
-              <h2 className="text-3xl">{data.personaname}</h2>
-              <h3>{data.realname}</h3>
-              <Separator />
+            <CardAction>
               <div className="flex items-center gap-2">
-                <PersonaStateBadge personastate={data.personastate} />
-                <Badge className="group">
-                  <span className="hidden group-hover:block">Established:</span>
-                  <span>{formatTimeCreated(data.timecreated)}</span>
-                </Badge>
-
-                <Badge className="group" variant="secondary">
-                  <span className="hidden group-hover:block">Level:</span>
-                  <span>{steamLevel.response.player_level}</span>
-                </Badge>
+                <a
+                  href={data.profileurl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button>View Profile</Button>
+                </a>
               </div>
-              Games Owned: {gamesOwned}
-              {/* <h4>Owned Games</h4>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4">
+              <Avatar className="h-46 w-46">
+                <AvatarImage className="rounded-none" src={data.avatarfull} />
+              </Avatar>
+              <div className="flex flex-col gap-2">
+                <h2 className="text-3xl">{data.personaname}</h2>
+                <h3>{data.realname}</h3>
+                <Separator />
+                <div className="flex items-center gap-2">
+                  <PersonaStateBadge personastate={data.personastate} />
+                  <Badge className="group">
+                    <span className="hidden group-hover:block">
+                      Established:
+                    </span>
+                    <span>{formatTimeCreated(data.timecreated)}</span>
+                  </Badge>
+
+                  <Badge className="group" variant="secondary">
+                    <span className="hidden group-hover:block">Level:</span>
+                    <span>{steamLevel.response.player_level}</span>
+                  </Badge>
+                </div>
+                Games Owned: {gamesOwned}
+                {/* <h4>Owned Games</h4>
               {!error && allGames && !isAdmin && (
                 <pre>{JSON.stringify(allGames, null, 2)}</pre>
               )}
@@ -136,10 +140,11 @@ export default async function Home({
               {!error && friendsList && (
                 <pre>{JSON.stringify(friendsList, null, 2)}</pre>
               )} */}
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
     </main>
   );
 }
