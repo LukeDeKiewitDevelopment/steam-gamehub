@@ -26,6 +26,13 @@ export async function getPlayerSummaries(steamIds: string[]) {
   });
 }
 
+export async function getPlayer(steamId: string) {
+  const data = await steamFetch<{
+    response: { players: Record<string, unknown>[] };
+  }>("/ISteamUser/GetPlayerSummaries/v2/", { steamids: steamId });
+  return data.response.players[0] ?? null;
+}
+
 export async function getFriendList(steamId: string) {
   return steamFetch("/ISteamUser/GetFriendList/v1/", {
     steamid: steamId,
@@ -93,4 +100,12 @@ export async function resolveToSteamId(input: string): Promise<string> {
   }
 
   return data.response.steamid;
+}
+
+export async function getBadges(steamId: string) {
+  return steamFetch("/IPlayerService/GetBadges/v1/", { steamid: steamId });
+}
+
+export async function getSteamLevel(steamId: string) {
+  return steamFetch("/IPlayerService/GetSteamLevel/v1/", { steamid: steamId });
 }
