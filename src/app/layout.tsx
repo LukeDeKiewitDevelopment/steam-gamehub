@@ -40,7 +40,7 @@ export default function RootLayout({
         jetbrainsMono.variable,
       )}
     >
-      <body className="bg-background flex min-h-full flex-col p-4 md:p-6 lg:p-8">
+      <body className="bg-background mx-auto min-h-full w-full max-w-[90%] py-8">
         {children}
       </body>
     </html>
