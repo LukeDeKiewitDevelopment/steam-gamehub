@@ -1,9 +1,7 @@
-
-
 const STEAM_API_KEY = process.env.STEAM_API_KEY;
 const BASE_URL = process.env.STEAM_API_BASE_URL;
 
-async function steamFetch<T>(
+async function steamFetch<T = Record<string, unknown>>(
   endpoint: string,
   params: Record<string, string> = {},
 ): Promise<T> {
@@ -74,4 +72,25 @@ export async function getWishlist(steamId: string) {
   return steamFetch("/IWishlistService/GetWishlist/v1/", {
     steamid: steamId,
   });
+}
+
+export async function resolveVanityUrl(vanityUrl: string) {
+  return steamFetch("/ISteamUser/ResolveVanityURL/v1/", {
+    vanityurl: vanityUrl,
+  });
+}
+
+export async function resolveToSteamId(input: string): Promise<string> {
+  const isSteamId = /^\d{17}$/.test(input);
+  if (isSteamId) return input;
+
+  const data = (await resolveVanityUrl(input)) as {
+    response: { steamid?: string; success: number };
+  };
+
+  if (data.response.success !== 1 || !data.response.steamid) {
+    throw new Error("Could not find Steam user");
+  }
+
+  return data.response.steamid;
 }
