@@ -125,7 +125,7 @@ export default async function Home({
                     <span>{steamLevel.response.player_level}</span>
                   </Badge>
                 </div>
-                Games Owned: {gamesOwned}
+                {/* Games Owned: {gamesOwned} */}
                 {/* <h4>Owned Games</h4>
               {!error && allGames && !isAdmin && (
                 <pre>{JSON.stringify(allGames, null, 2)}</pre>
