@@ -13,7 +13,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { resolveToSteamId, getPlayer, getSteamLevel } from "@/lib/api";
+import {
+  resolveToSteamId,
+  getPlayer,
+  getSteamLevel,
+  getBadges,
+  getOwnedGames,
+  getRecentlyPlayedGames,
+  getFriendList,
+} from "@/lib/api";
 import { formatTimeCreated } from "@/lib/utils";
 
 export default async function Home({
@@ -25,6 +33,10 @@ export default async function Home({
   let data: any = null;
   let steamLevel: any = null;
   let error = "";
+  let badges: any = null;
+  let allGames: any = null;
+  let recentlyPlayedGames: any = null;
+  let friendsList: any = null;
 
   if (query) {
     try {
@@ -32,6 +44,10 @@ export default async function Home({
       data = await getPlayer(steamId);
       if (data) {
         steamLevel = await getSteamLevel(steamId);
+        badges = await getBadges(steamId);
+        allGames = await getOwnedGames(steamId);
+        recentlyPlayedGames = await getRecentlyPlayedGames(steamId);
+        friendsList = await getFriendList(steamId);
       }
     } catch (error) {
       error = String(error);
@@ -39,7 +55,7 @@ export default async function Home({
   }
 
   return (
-    <main className="w-full">
+    <main className="flex w-full flex-col gap-8">
       <div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
         <h1 className="text-center text-xl font-bold uppercase md:text-3xl">
           Steam Player Search
@@ -62,7 +78,7 @@ export default async function Home({
         )}
       </div>
 
-      {!error && data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {/* {!error && data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
 
       <Card>
         <CardHeader>
@@ -101,6 +117,20 @@ export default async function Home({
                   <span>{steamLevel.response.player_level}</span>
                 </Badge>
               </div>
+
+              {!error && badges && <pre>{JSON.stringify(badges, null, 2)}</pre>}
+              <h4>Owned Games</h4>
+              {!error && allGames && (
+                <pre>{JSON.stringify(allGames, null, 2)}</pre>
+              )}
+              <h4>Recently Played Games</h4>
+              {!error && recentlyPlayedGames && (
+                <pre>{JSON.stringify(recentlyPlayedGames, null, 2)}</pre>
+              )}
+              <h4>Friends</h4>
+              {!error && friendsList && (
+                <pre>{JSON.stringify(friendsList, null, 2)}</pre>
+              )}
             </div>
           </div>
         </CardContent>
