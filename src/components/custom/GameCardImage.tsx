@@ -20,7 +20,7 @@ export const GameCardImage = ({ appid, name }: GameCardImageProps) => {
       alt={name}
       width={400}
       height={215}
-      className="border-b-2 select-none"
+      className="border-b-2 select-none w-full h-full object-contain"
       onError={() => setSrc("https://placehold.co/400x125")}
     />
   );

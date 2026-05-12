@@ -14,7 +14,7 @@ export const GameCard = ({ game, showRecentPlaytime }: GameCardProps) => {
       href={getAppStoreUrl(game.appid)}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-card flex w-[calc(20%-1rem)] grow-0 flex-col items-center gap-2 overflow-hidden rounded-md border-2 pb-2"
+      className="bg-card flex w-[calc(100%-1rem)] sm:w-[calc(50%-1rem)] md:w-[calc(33%-1rem)] lg:w-[calc(20%-1rem)] grow-0 flex-col items-center gap-2 overflow-hidden rounded-md border-2 pb-2"
       key={game.appid}
       title={game.name}
     >
@@ -24,8 +24,8 @@ export const GameCard = ({ game, showRecentPlaytime }: GameCardProps) => {
           {formatPlaytime(game.playtime_2weeks)} recently played
         </span>
       ) : (
-        <span className="text-muted-foreground">
-          {game.playtime_forever} hours played total
+        <span className="text-muted-foreground uppercase">
+          {formatPlaytime(game.playtime_forever)} played
         </span>
       )}
     </a>

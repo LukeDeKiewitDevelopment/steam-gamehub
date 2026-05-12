@@ -2,12 +2,6 @@
 import { ErrorBox } from "@/components/custom/ErrorBox";
 import { GameCard } from "@/components/custom/GameCard";
 import PersonaStateBadge from "@/components/custom/PersonaStateBadge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,7 +23,7 @@ import {
   getRecentlyPlayedGames,
   getFriendList,
 } from "@/lib/api";
-import { formatTimeCreated } from "@/lib/utils";
+import { cn, formatTimeCreated } from "@/lib/utils";
 import { SteamBadge, SteamFriend, SteamGame, SteamPlayer } from "@/types/types";
 import Image from "next/image";
 
@@ -97,9 +91,11 @@ export default async function Home({
 
       {data && (
         <>
-          <Card>
+          <Card className={cn(isAdmin && "bg-[#daa520] text-black shadow-md")}>
             <CardHeader>
-              <CardTitle>Info</CardTitle>
+              <CardTitle className={cn(isAdmin && "text-black")}>
+                Info
+              </CardTitle>
               <CardAction>
                 <div className="flex items-center gap-2">
                   <a
@@ -107,33 +103,91 @@ export default async function Home({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button>View Profile</Button>
+                    <Button
+                      className={cn(
+                        isAdmin &&
+                          "bg-black! text-[#daa520]! hover:bg-black/95!",
+                      )}
+                      variant="outline"
+                    >
+                      View Steam Profile
+                    </Button>
                   </a>
                 </div>
               </CardAction>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-4">
-                <Avatar className="h-46 w-46">
-                  <AvatarImage className="rounded-none" src={data.avatarfull} />
+              <div className="flex flex-col items-center justify-center gap-6 md:flex-row">
+                <Avatar className="h-46 max-h-46 w-46 max-w-46 rounded-none border-2">
+                  <AvatarImage
+                    className="rounded-none border-none"
+                    src={data.avatarfull}
+                  />
                 </Avatar>
-                <div className="flex flex-col gap-2">
-                  <h2 className="text-3xl">{data.personaname}</h2>
-                  <h3>{data.realname}</h3>
-                  <Separator />
-                  <div className="flex items-center gap-2">
-                    <PersonaStateBadge personastate={data.personastate} />
-                    <Badge className="group">
-                      <span className="hidden group-hover:block">
-                        Established:
+                <div className="flex flex-1 flex-col gap-4">
+                  <div className="flex flex-col gap-1">
+                    <h2 className="text-center text-3xl font-bold md:text-left">
+                      {data.personaname}
+                    </h2>
+                    <p className="text-muted-foreground text-center md:text-left">
+                      {data.realname}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
+                    {!isAdmin && (
+                      <PersonaStateBadge personastate={data.personastate} />
+                    )}
+                    {isAdmin && (
+                      <Badge className="bg-black text-[#daa520]">Coding</Badge>
+                    )}
+                    {!isAdmin && (
+                      <Badge variant="secondary">Level {steamLevel}</Badge>
+                    )}
+                    {isAdmin && (
+                      <Badge className="bg-black text-[#daa520]">
+                        Level {steamLevel}
+                      </Badge>
+                    )}
+                    {!isAdmin && (
+                      <Badge variant="outline">
+                        Joined {formatTimeCreated(data.timecreated)}
+                      </Badge>
+                    )}
+                    {isAdmin && (
+                      <Badge className="bg-black text-[#daa520]">
+                        Joined {formatTimeCreated(data.timecreated)}
+                      </Badge>
+                    )}
+                  </div>
+                  <Separator className={cn(isAdmin && "bg-black!")} />
+                  <div className="flex flex-wrap justify-center gap-8 md:justify-start">
+                    <div className="flex flex-col">
+                      <span
+                        className={cn(
+                          isAdmin && "text-black!",
+                          "text-muted-foreground text-center text-sm md:text-left",
+                        )}
+                      >
+                        Games Owned
                       </span>
-                      <span>{formatTimeCreated(data.timecreated)}</span>
-                    </Badge>
-
-                    <Badge className="group" variant="secondary">
-                      <span className="hidden group-hover:block">Level:</span>
-                      <span>{steamLevel}</span>
-                    </Badge>
+                      <span className="text-center text-xl font-semibold md:text-left">
+                        {isAdmin && "2147483647"}
+                        {!isAdmin && gameCount !== 0 ? gameCount : "-"}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span
+                        className={cn(
+                          isAdmin && "text-black!",
+                          "text-muted-foreground text-center text-sm md:text-left",
+                        )}
+                      >
+                        Badges
+                      </span>
+                      <span className="text-center text-xl font-semibold md:text-left">
+                        {badges.length}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -148,9 +202,7 @@ export default async function Home({
               </CardHeader>
               <CardContent>
                 {recentlyPlayedGames.length === 0 && (
-                  <span className="text-muted-foreground">
-                    No recently played games.
-                  </span>
+                  <span className="text-muted-foreground">Private.</span>
                 )}
                 <div className="flex w-full flex-wrap items-center gap-4">
                   {recentlyPlayedGames.length !== 0 &&
@@ -172,7 +224,7 @@ export default async function Home({
               </CardHeader>
               <CardContent>
                 {games.length === 0 && (
-                  <span className="text-muted-foreground">No owned games.</span>
+                  <span className="text-muted-foreground">Private.</span>
                 )}
                 <div className="flex w-full flex-wrap items-center gap-4">
                   {games.length !== 0 &&
