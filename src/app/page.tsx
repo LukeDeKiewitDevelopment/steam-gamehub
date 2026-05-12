@@ -1,4 +1,3 @@
-// app/page.tsx
 import { ErrorBox } from "@/components/custom/ErrorBox";
 import { GameCard } from "@/components/custom/GameCard";
 import PersonaStateBadge from "@/components/custom/PersonaStateBadge";
@@ -24,8 +23,7 @@ import {
   getFriendList,
 } from "@/lib/api";
 import { cn, formatTimeCreated } from "@/lib/utils";
-import { SteamBadge, SteamFriend, SteamGame, SteamPlayer } from "@/types/types";
-import Image from "next/image";
+import { SteamBadge, SteamGame, SteamPlayer } from "@/types/types";
 
 export default async function Home({
   searchParams,
@@ -68,9 +66,20 @@ export default async function Home({
   return (
     <main className="flex w-full flex-col gap-8">
       <div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
-        <h1 className="text-center text-xl font-bold uppercase md:text-3xl">
-          Steam Player Search
+        <h1 className="flex flex-col text-center text-xl uppercase md:text-3xl">
+          <span className="font-bold">Steam Player Search</span>
+          <span className="text-muted-foreground text-center text-xs">
+            by{" "}
+            <a
+              href="https://lukedekiewit-cv.vercel.app/"
+              target="_blank"
+              className="text-[#0f9] hover:underline"
+            >
+              Luke De Kiewit
+            </a>
+          </span>
         </h1>
+
         <form method="GET" className="flex items-center justify-center gap-2">
           <Input
             name="query"
