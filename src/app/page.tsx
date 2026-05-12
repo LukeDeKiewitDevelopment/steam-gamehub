@@ -205,7 +205,9 @@ export default async function Home({
               </CardHeader>
               <CardContent>
                 {recentlyPlayedGames.length === 0 && (
-                  <span className="text-muted-foreground">Private.</span>
+                  <span className="text-muted-foreground">
+                    No games played in the last two weeks.
+                  </span>
                 )}
                 <div className="flex w-full flex-wrap items-center gap-4">
                   {recentlyPlayedGames.length !== 0 &&
