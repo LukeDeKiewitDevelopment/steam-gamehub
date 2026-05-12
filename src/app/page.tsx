@@ -171,8 +171,11 @@ export default async function Home({
                         Games Owned
                       </span>
                       <span className="text-center text-xl font-semibold md:text-left">
-                        {isAdmin && "2147483647"}
-                        {!isAdmin && gameCount !== 0 ? gameCount : "-"}
+                        {isAdmin
+                          ? "2147483647"
+                          : !isAdmin && gameCount !== 0
+                            ? gameCount
+                            : "-"}
                       </span>
                     </div>
                     <div className="flex flex-col">
