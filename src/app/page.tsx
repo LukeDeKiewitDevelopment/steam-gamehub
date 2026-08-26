@@ -201,7 +201,7 @@ export default async function Home({
                         Badges
                       </span>
                       <span className="text-center text-xl font-semibold md:text-left">
-                        {isAdmin ? "9999999999" : badges.length}
+                        {isAdmin ? "999999999" : badges.length}
                       </span>
                     </div>
                   </div>
