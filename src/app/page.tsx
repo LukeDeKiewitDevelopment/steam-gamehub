@@ -132,7 +132,7 @@ export default async function Home({
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center justify-center gap-6 md:flex-row">
-                <Avatar className="h-46 max-h-46 w-46 max-w-46 rounded-none border-2">
+                <Avatar className="h-46 max-h-46 w-46 max-w-46 rounded-none border-2 shadow-md shadow-black/50">
                   <AvatarImage
                     className="rounded-none border-none"
                     src={data.avatarfull}
