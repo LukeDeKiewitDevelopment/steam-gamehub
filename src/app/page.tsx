@@ -103,7 +103,7 @@ export default async function Home({
           <Card
             className={cn(
               isAdmin &&
-                "border-md border-2 border-[#ffb600]/50 bg-[#ffb600] text-black shadow-md shadow-black",
+                "rounded-md border-2 border-[#ffb600]/50 bg-[#ffb600] text-black shadow-md shadow-black",
             )}
           >
             <CardHeader>
