@@ -100,10 +100,15 @@ export default async function Home({
 
       {data && (
         <>
-          <Card className={cn(isAdmin && "bg-[#daa520] text-black shadow-md")}>
+          <Card
+            className={cn(
+              isAdmin &&
+                "border-md border-2 border-[#ffb600]/50 bg-[#ffb600] text-black shadow-md shadow-black",
+            )}
+          >
             <CardHeader>
               <CardTitle className={cn(isAdmin && "text-black")}>
-                Info
+                {isAdmin ? "Admin" : "Player"}
               </CardTitle>
               <CardAction>
                 <div className="flex items-center gap-2">
@@ -115,7 +120,7 @@ export default async function Home({
                     <Button
                       className={cn(
                         isAdmin &&
-                          "bg-black! text-[#daa520]! hover:bg-black/95!",
+                          "bg-black! text-[#ffb600]! hover:bg-black/95!",
                       )}
                       variant="outline"
                     >
@@ -147,13 +152,13 @@ export default async function Home({
                       <PersonaStateBadge personastate={data.personastate} />
                     )}
                     {isAdmin && (
-                      <Badge className="bg-black text-[#daa520]">Coding</Badge>
+                      <Badge className="bg-black text-[#ffb600]">Coding</Badge>
                     )}
                     {!isAdmin && (
                       <Badge variant="secondary">Level {steamLevel}</Badge>
                     )}
                     {isAdmin && (
-                      <Badge className="bg-black text-[#daa520]">
+                      <Badge className="bg-black text-[#ffb600]">
                         Level {steamLevel}
                       </Badge>
                     )}
@@ -163,7 +168,7 @@ export default async function Home({
                       </Badge>
                     )}
                     {isAdmin && (
-                      <Badge className="bg-black text-[#daa520]">
+                      <Badge className="bg-black text-[#ffb600]">
                         Joined {formatTimeCreated(data.timecreated)}
                       </Badge>
                     )}
@@ -197,7 +202,7 @@ export default async function Home({
                         Badges
                       </span>
                       <span className="text-center text-xl font-semibold md:text-left">
-                        {badges.length}
+                        {isAdmin ? "9999999999" : badges.length}
                       </span>
                     </div>
                   </div>
